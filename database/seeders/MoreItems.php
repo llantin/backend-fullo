@@ -15,18 +15,54 @@ class MoreItems extends Seeder
         $faker = \Faker\Factory::create('es_ES');
 
         $unitMeasurements = [
-            'CM', 'GL', 'G', 'KG', 'LB', 'L', 'M', 'M3', 'ML', 'OZ', 'IN', 'UND'
+            'CM',
+            'GL',
+            'G',
+            'KG',
+            'LB',
+            'L',
+            'M',
+            'M3',
+            'ML',
+            'OZ',
+            'IN',
+            'UND'
         ];
 
         $brands = [
-            'Stanley', 'Bosch', 'Makita', 'DeWalt', 'Truper', 'Irwin',
-            'Black & Decker', 'Hilti', 'Sika', '3M', 'Tesa', 'Klein Tools',
-            'Karcher', 'Philips', 'Ledvance', 'Caterpillar', 'Ridgid',
-            'Total', 'Einhell', 'Generico'
+            'Stanley',
+            'Bosch',
+            'Makita',
+            'DeWalt',
+            'Truper',
+            'Irwin',
+            'Black & Decker',
+            'Hilti',
+            'Sika',
+            '3M',
+            'Tesa',
+            'Klein Tools',
+            'Karcher',
+            'Philips',
+            'Ledvance',
+            'Caterpillar',
+            'Ridgid',
+            'Total',
+            'Einhell',
+            'Generico'
         ];
 
         $presentations = [
-            'Unidad', 'Caja', 'Blíster', 'Set', 'Paquete', 'Galón', 'Litro', 'Bolsa', 'Tambor', 'Frasco'
+            'Unidad',
+            'Caja',
+            'Blíster',
+            'Set',
+            'Paquete',
+            'Galón',
+            'Litro',
+            'Bolsa',
+            'Tambor',
+            'Frasco'
         ];
 
         $categories = Category::pluck('id')->toArray();
@@ -104,6 +140,15 @@ class MoreItems extends Seeder
             $category_id = $faker->randomElement($categories);
             $brand = $faker->randomElement($brands);
 
+            // 🖼 Normalizar nombre del producto
+            $normalizedName = strtolower(Str::slug($name, ''));
+
+            // 🔍 Buscar imagen que contenga el nombre normalizado
+            $matchingImage = collect($images)->first(function ($img) use ($normalizedName) {
+                $imageName = strtolower(pathinfo($img, PATHINFO_FILENAME));
+                return Str::contains($imageName, $normalizedName);
+            });
+
             $items[] = [
                 'name' => $name,
                 'description' => "Producto de ferretería: {$name}. Fabricado por {$brand}, ideal para uso profesional o doméstico.",
@@ -115,7 +160,7 @@ class MoreItems extends Seeder
                 'minimum_stock' => $faker->numberBetween(5, 15),
                 'maximum_stock' => $faker->numberBetween(30, 150),
                 'category_id' => $category_id,
-                'image' => $images ? $faker->randomElement($images) : null, // 👈 asigna imagen aleatoria si hay disponibles
+                'image' => $matchingImage ?? null, // 👈 imagen por similitud
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

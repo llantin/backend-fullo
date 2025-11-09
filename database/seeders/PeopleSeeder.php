@@ -57,22 +57,6 @@ class PeopleSeeder extends Seeder
             'identification_number' => '43211234',
         ]);
 
-        // 👇 NUEVO usuario “sistema_ventas”
-        $person = Person::create([
-            'name' => 'Sistema',
-            'last_name' => 'Ventas',
-            'email' => 'sistema@ventas.com',
-            'phone' => '000000000',
-            'type' => 'Sistema',
-            'identification_type' => 'RUC',
-            'identification_number' => '00000000000',
-        ]);
 
-        User::create([
-            'person_id' => $person->id,
-            'username' => 'sistema_ventas',
-            'password' => bcrypt('123456'),
-            'role_id' => 1, // o el rol que prefieras (admin, ventas, etc.)
-        ]);
     }
 }
