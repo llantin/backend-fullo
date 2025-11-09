@@ -1,11 +1,14 @@
 <?php
 
 return [
-    'paths' => ['api/*', 'login', 'logout', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://backend-fullo.onrender.com'],
+    'allowed_origins' => [
+        'http://localhost:5173',           // Desarrollo local
+        'https://frontend-fullo.vercel.app' // Producción
+    ],
 
     'allowed_origins_patterns' => [],
 

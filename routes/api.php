@@ -20,6 +20,11 @@ use App\Http\Controllers\Api\MovementsController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\ItemController2;
 
+// Maneja TODAS las peticiones OPTIONS (preflight)
+Route::options('{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -65,10 +70,7 @@ Route::post('/checkout', [App\Http\Controllers\Api\CheckoutController::class, 's
 //Mediante el codigo del delivery se puede obtener toda la informacion despues de la compra
 Route::get('/checkout/hash/{hash}', [App\Http\Controllers\Api\CheckoutController::class, 'showByHash']);
 
-// Maneja TODAS las peticiones OPTIONS (preflight)
-Route::options('{any}', function () {
-    return response()->json([], 200);
-})->where('any', '.*');
+
 
 // Ruta de prueba CORS
 Route::get('/cors-test', function () {

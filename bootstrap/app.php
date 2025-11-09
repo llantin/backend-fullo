@@ -15,8 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Confianza en proxies (importante para Render)
         $middleware->trustProxies(at: '*');
 
-        // CORS personalizado - DEBE IR PRIMERO
-        $middleware->api(prepend: [
+        // 🔥 CORS como middleware GLOBAL
+        $middleware->use([
             \App\Http\Middleware\CorsMiddleware::class,
         ]);
     })

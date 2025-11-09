@@ -52,6 +52,18 @@ RUN chown -R www-data:www-data /var/www/html \
 # Generate application key
 RUN php artisan key:generate || true
 
+# 🔥 Clear all caches and optimize
+RUN php artisan config:clear || true
+RUN php artisan cache:clear || true
+RUN php artisan route:clear || true
+RUN php artisan view:clear || true
+RUN php artisan optimize:clear || true
+
+# 🔥 Cache configuration for production (importante para performance)
+RUN php artisan config:cache || true
+RUN php artisan route:cache || true
+RUN php artisan view:cache || true
+
 # Expose port 80
 EXPOSE 80
 
