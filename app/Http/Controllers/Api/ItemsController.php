@@ -27,9 +27,14 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
         $image_path = null;
+
         if ($request->hasFile('image')) {
-            $filename = 'item_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $image_path = $request->file('image')->storeAs('items', $filename, 'public');
+            $image = $request->file('image');
+            $filename = 'item_' . time() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar en public/imgs
+            $image->move(public_path('imgs'), $filename);
+            $image_path = 'imgs/' . $filename; // ruta relativa para almacenar en DB
         }
 
         $itemData = $request->except('image');
@@ -37,14 +42,13 @@ class ItemsController extends Controller
 
         $item = Item::create($itemData);
         $item->load(['category']);
+
         return response()->json([
             'status' => true,
             'message' => "Item created successfully!",
             'item' => $item
         ], 200);
     }
-
-    
 
     /**
      * Update the specified resource in storage.
