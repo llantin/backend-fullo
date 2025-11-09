@@ -44,6 +44,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 # Install Node dependencies and build assets
 RUN npm install && npm run build
 
+# 🔹 Re-create storage symlink
+RUN rm -f public/storage && php artisan storage:link
+
 # Set permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \

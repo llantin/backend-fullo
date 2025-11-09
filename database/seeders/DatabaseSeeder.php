@@ -14,9 +14,11 @@ class DatabaseSeeder extends Seeder
             ModulesSeeder::class,
             RoleModulesSeeder::class,
             UserSeeder::class,
-            CategorySeeder::class,
+            MoreCategories::class,
             UnitSeeder::class,
             UnitConversionSeeder::class,
+            MoreItems::class,
+            MoreReceipts::class,
         ]);
     }
 }
