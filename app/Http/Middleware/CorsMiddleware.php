@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CorsMiddleware
 {
     protected $allowedOrigins = [
+        'http://localhost:5173',
         'https://frontend-fullo.vercel.app',
         'https://tienda-fullo.vercel.app',
     ];

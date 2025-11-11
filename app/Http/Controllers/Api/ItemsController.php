@@ -55,8 +55,23 @@ class ItemsController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        $item->update($request->all());
+        $image_path = $item->image; // Keep existing image by default
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = 'item_' . time() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar en public/imgs
+            $image->move(public_path('imgs'), $filename);
+            $image_path = 'imgs/' . $filename; // ruta relativa para almacenar en DB
+        }
+
+        $itemData = $request->except('image');
+        $itemData['image'] = $image_path;
+
+        $item->update($itemData);
         $item->load(['category']);
+
         return response()->json([
             'status' => true,
             'message' => "Item updated successfully!",
