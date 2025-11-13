@@ -12,6 +12,7 @@ class CorsMiddleware
         'http://localhost:5173',
         'https://frontend-fullo.vercel.app',
         'https://tienda-fullo.vercel.app',
+        'https://tienda2-fullo.vercel.app'
     ];
 
     public function handle(Request $request, Closure $next): Response

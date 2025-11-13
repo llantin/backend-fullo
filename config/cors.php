@@ -8,7 +8,8 @@ return [
     'allowed_origins' => [
         'http://localhost:5173',           // Desarrollo local
         'https://frontend-fullo.vercel.app', // Producción
-        'https://tienda-fullo.vercel.app'
+        'https://tienda-fullo.vercel.app',
+        'https://tienda2-fullo.vercel.app'
     ],
 
     'allowed_origins_patterns' => [],
