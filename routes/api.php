@@ -112,12 +112,12 @@ Route::get('/get-units/{base_unit}', [UnitConversionsController::class, 'getUnit
 // Gestión de Ítems y Productos
 // ============================================================================
 
-// CRUD completo para ítems/productos
-Route::apiResource('items', ItemsController::class);
-
 // Rutas adicionales para ítems con información de stock
 Route::get('/items/with-stock', [App\Http\Controllers\Api\ItemController2::class, 'indexWithStock']);
 Route::get('/items/with-stock/{id}', [App\Http\Controllers\Api\ItemController2::class, 'showWithStock']);
+
+// CRUD completo para ítems/productos
+Route::apiResource('items', ItemsController::class);
 
 // ============================================================================
 // Gestión de Inventario
