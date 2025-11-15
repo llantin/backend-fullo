@@ -6,15 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\Person;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador API para Personas
+ *
+ * Gestiona las operaciones CRUD para las personas del sistema.
+ * Incluye filtrado por tipo de persona (proveedor, cliente, etc.).
+ */
 class PeopleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar personas con filtrado opcional
+     *
+     * Devuelve una lista de personas. Permite filtrar por tipo
+     * mediante parámetro de query 'type'.
+     *
+     * @param Request $request Parámetros de filtrado
+     * @return \Illuminate\Http\JsonResponse Lista de personas filtradas
      */
     public function index(Request $request)
     {
         $query = Person::query();
 
+        // Filtrar por tipo si se proporciona
         if ($request->has('type')) {
             $query->where('type', $request->type);
         }
@@ -27,9 +40,13 @@ class PeopleController extends Controller
         ]);
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * Crear una nueva persona
+     *
+     * Crea una nueva persona en el sistema con los datos proporcionados.
+     *
+     * @param Request $request Datos de la nueva persona
+     * @return \Illuminate\Http\JsonResponse Persona creada
      */
     public function store(Request $request)
     {
@@ -43,7 +60,14 @@ class PeopleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar una persona existente
+     *
+     * Actualiza los datos de una persona específica.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Request $request Datos actualizados
+     * @param Person $person Instancia de la persona a actualizar
+     * @return \Illuminate\Http\JsonResponse Persona actualizada
      */
     public function update(Request $request, Person $person)
     {
@@ -56,7 +80,13 @@ class PeopleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar una persona
+     *
+     * Elimina una persona específica del sistema.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Person $person Instancia de la persona a eliminar
+     * @return \Illuminate\Http\JsonResponse Confirmación de eliminación
      */
     public function destroy(Person $person)
     {

@@ -9,8 +9,34 @@ use App\Models\Movement;
 use App\Models\Item;
 use Illuminate\Support\Str;
 
+/**
+ * Seeder para poblar tablas de comprobantes, detalles y movimientos.
+ *
+ * Crea un historial extenso de transacciones (compras y ventas) con sus
+ * respectivos detalles y movimientos de inventario. Simula actividad
+ * comercial real para testing y desarrollo.
+ */
 class MoreReceipts extends Seeder
 {
+    /**
+     * Ejecutar el seeder de comprobantes.
+     *
+     * Crea 300 comprobantes con los siguientes datos fijos:
+     * - Usuario: Carlos Cardenas (ID: 1)
+     * - Persona: Frank Fuentes (ID: 2)
+     *
+     * Para cada comprobante:
+     * - Genera código único (CC-0001, CC-0002, etc.)
+     * - Tipo aleatorio: Compra o Venta
+     * - Descripción: Boleta o Factura
+     * - 1-5 artículos aleatorios por comprobante
+     * - Crea detalle del comprobante con cantidad, precio y subtotal
+     * - Registra movimiento de inventario (kardex)
+     * - Simula cambios de stock según tipo de movimiento
+     *
+     * Resultado: Base de datos poblada con historial de transacciones
+     * realista para testing de reportes y estadísticas.
+     */
     public function run()
     {
         $faker = \Faker\Factory::create('es_ES');
@@ -80,7 +106,15 @@ class MoreReceipts extends Seeder
     }
 
     /**
-     * Simula la actualización del stock (solo para poblar datos de ejemplo)
+     * Simula la actualización del stock para movimientos.
+     *
+     * Método auxiliar que mantiene un estado de stocks por ítem
+     * y simula cambios realistas de inventario.
+     *
+     * @param int $itemId ID del ítem
+     * @param string $type Tipo de movimiento ('Compra' o 'Venta')
+     * @param float $quantity Cantidad del movimiento
+     * @return float Stock resultante después del movimiento
      */
     private function simulateStockChange($itemId, $type, $quantity)
     {

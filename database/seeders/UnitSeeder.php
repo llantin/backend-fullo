@@ -5,8 +5,25 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Unit;
 
+/**
+ * Seeder para poblar la tabla de unidades de medida.
+ *
+ * Crea el catálogo base de unidades de medida utilizadas en el sistema
+ * de inventario, clasificadas por tipo (longitud, peso, volumen, unitario).
+ */
 class UnitSeeder extends Seeder
 {
+    /**
+     * Ejecutar el seeder de unidades.
+     *
+     * Crea unidades de medida estándar organizadas por tipo:
+     * - Longitud: CM, M, IN
+     * - Peso: G, KG, LB
+     * - Volumen: GL, L, M3, ML, OZ
+     * - Unitario: UND (para artículos contados por unidad)
+     *
+     * Cada unidad incluye nombre completo, símbolo y tipo de medida.
+     */
     public function run(): void
     {
         Unit::create([

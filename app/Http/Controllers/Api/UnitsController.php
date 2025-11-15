@@ -6,10 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador API para Unidades de Medida
+ *
+ * Gestiona las operaciones CRUD para las unidades de medida
+ * utilizadas en el sistema de inventario.
+ */
 class UnitsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar todas las unidades
+     *
+     * Devuelve una lista completa de todas las unidades de medida
+     * disponibles en el sistema.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de unidades
      */
     public function index()
     {
@@ -21,7 +32,12 @@ class UnitsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear una nueva unidad
+     *
+     * Crea una nueva unidad de medida en el sistema.
+     *
+     * @param Request $request Datos de la nueva unidad
+     * @return \Illuminate\Http\JsonResponse Unidad creada
      */
     public function store(Request $request)
     {
@@ -34,7 +50,14 @@ class UnitsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar una unidad existente
+     *
+     * Actualiza los datos de una unidad de medida específica.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Request $request Datos actualizados
+     * @param Unit $unit Instancia de la unidad a actualizar
+     * @return \Illuminate\Http\JsonResponse Unidad actualizada
      */
     public function update(Request $request, Unit $unit)
     {
@@ -47,7 +70,13 @@ class UnitsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar una unidad
+     *
+     * Elimina una unidad de medida específica del sistema.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Unit $unit Instancia de la unidad a eliminar
+     * @return \Illuminate\Http\JsonResponse Confirmación de eliminación
      */
     public function destroy(Unit $unit)
     {

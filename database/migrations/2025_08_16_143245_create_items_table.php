@@ -4,9 +4,32 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migración para crear la tabla de ítems/productos.
+ *
+ * Esta tabla almacena la información detallada de cada producto en el inventario,
+ * incluyendo datos de identificación, precios, stocks y relación con categorías.
+ */
 return new class extends Migration {
     /**
-     * Run the migrations.
+     * Ejecutar la migración.
+     *
+     * Crea la tabla 'items' con los siguientes campos:
+     * - id: Identificador único autoincremental
+     * - name: Nombre del producto
+     * - description: Descripción detallada del producto
+     * - brand: Marca del producto
+     * - model: Modelo del producto
+     * - presentation: Presentación o empaque
+     * - unit_measurement: Unidad de medida (relacionada con units table)
+     * - price: Precio del producto (decimal 10,2)
+     * - minimum_stock: Stock mínimo para alertas
+     * - maximum_stock: Stock máximo recomendado
+     * - category_id: ID de la categoría (foreign key)
+     * - image: Ruta de la imagen del producto (opcional)
+     * - timestamps: Campos created_at y updated_at
+     *
+     * Llave foránea: category_id -> categories.id (con eliminación en cascada)
      */
     public function up(): void
     {
@@ -30,7 +53,9 @@ return new class extends Migration {
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir la migración.
+     *
+     * Elimina la tabla 'items' si existe.
      */
     public function down(): void
     {

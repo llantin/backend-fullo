@@ -6,10 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Module;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador API para Módulos del Sistema
+ *
+ * Gestiona las operaciones CRUD para los módulos/funcionalidades
+ * disponibles en el sistema de permisos.
+ */
 class ModulesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar todos los módulos
+     *
+     * Devuelve una lista completa de todos los módulos del sistema.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse Lista de módulos
      */
     public function index(Request $request)
     {
@@ -21,7 +32,12 @@ class ModulesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear un nuevo módulo
+     *
+     * Crea un nuevo módulo en el sistema con los datos proporcionados.
+     *
+     * @param Request $request Datos del nuevo módulo
+     * @return \Illuminate\Http\JsonResponse Módulo creado
      */
     public function store(Request $request)
     {
@@ -34,7 +50,14 @@ class ModulesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar un módulo existente
+     *
+     * Actualiza los datos de un módulo específico.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Request $request Datos actualizados
+     * @param Module $module Instancia del módulo a actualizar
+     * @return \Illuminate\Http\JsonResponse Módulo actualizado
      */
     public function update(Request $request, Module $module)
     {
@@ -47,14 +70,20 @@ class ModulesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un módulo
+     *
+     * Elimina un módulo específico del sistema.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Module $module Instancia del módulo a eliminar
+     * @return \Illuminate\Http\JsonResponse Confirmación de eliminación
      */
     public function destroy(Module $module)
     {
         $module->delete();
         return response()->json([
             'status' => true,
-            'message' => "Role deleted successfully!"
+            'message' => "Module deleted successfully!"
         ], 200);
     }
 }

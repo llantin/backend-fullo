@@ -5,8 +5,41 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
 
+/**
+ * Seeder para poblar la tabla de categorías con datos extensos.
+ *
+ * Crea un catálogo completo de categorías de productos para ferretería,
+ * incluyendo herramientas, materiales de construcción, eléctricos, etc.
+ * Genera aproximadamente 150 categorías organizadas por especialidad.
+ */
 class MoreCategories extends Seeder
 {
+    /**
+     * Ejecutar el seeder de categorías.
+     *
+     * Crea categorías organizadas en grupos principales:
+     * - Herramientas (manuales y eléctricas)
+     * - Pinturas y acabados
+     * - Materiales eléctricos
+     * - Fontanería y plomería
+     * - Tornillería y fijaciones
+     * - Adhesivos y selladores
+     * - Seguridad industrial
+     * - Construcción y albañilería
+     * - Jardinería
+     * - Iluminación
+     * - Cerrajería
+     * - Revestimientos y pisos
+     * - Baños y grifería
+     * - Cocina y gas
+     * - Estructuras metálicas
+     * - Maderas y tableros
+     * - Puertas y ventanas
+     * - Selladores y pinturas especiales
+     *
+     * Más 130 categorías adicionales específicas de ferretería.
+     * Total: ~150 categorías con nombres y descripciones detalladas.
+     */
     public function run()
     {
         $categories = [

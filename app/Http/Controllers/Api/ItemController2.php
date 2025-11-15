@@ -7,8 +7,24 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controlador API alternativo para Ítems con Información de Stock
+ *
+ * Versión especializada del controlador de ítems que incluye
+ * el stock actual en las respuestas, optimizada para consultas
+ * que requieren información de inventario en tiempo real.
+ */
 class ItemController2 extends Controller
 {
+    /**
+     * Listar todos los ítems con stock actual
+     *
+     * Devuelve una lista completa de productos incluyendo su stock
+     * actual calculado desde el último movimiento registrado.
+     * Optimizado para interfaces que requieren stock en tiempo real.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de ítems con stock actual
+     */
     public function indexWithStock()
     {
         try {
@@ -36,6 +52,15 @@ class ItemController2 extends Controller
         }
     }
 
+    /**
+     * Mostrar un ítem específico con stock actual
+     *
+     * Devuelve los detalles de un producto específico incluyendo
+     * su stock actual calculado desde el último movimiento.
+     *
+     * @param int $id ID del ítem a consultar
+     * @return \Illuminate\Http\JsonResponse Ítem con stock actual o error 404
+     */
     public function showWithStock($id)
     {
         try {
@@ -67,6 +92,4 @@ class ItemController2 extends Controller
             ], 500);
         }
     }
-
-
 }

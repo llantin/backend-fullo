@@ -8,8 +8,37 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
+/**
+ * Seeder para poblar la tabla de ítems/productos con datos realistas.
+ *
+ * Crea un catálogo de productos de ferretería con información completa,
+ * incluyendo precios, stocks, marcas, modelos y asignación automática
+ * de imágenes basada en similitud de nombres.
+ */
 class MoreItems extends Seeder
 {
+    /**
+     * Ejecutar el seeder de ítems.
+     *
+     * Proceso:
+     * 1. Define listas de unidades, marcas y presentaciones
+     * 2. Obtiene todas las categorías existentes
+     * 3. Escanea el directorio public/imgs/ para encontrar imágenes disponibles
+     * 4. Crea 50 productos reales de ferretería con datos completos
+     *
+     * Características de los productos creados:
+     * - Nombres realistas de productos de ferretería
+     * - Descripciones detalladas con marca
+     * - Modelos generados aleatoriamente
+     * - Precios entre 1.50 y 1500.00
+     * - Stocks mínimo (5-15) y máximo (30-150)
+     * - Unidades de medida variadas
+     * - Asignación automática de imágenes por similitud de nombres
+     * - Categorías asignadas aleatoriamente
+     *
+     * Imágenes: Busca coincidencias entre nombre del producto normalizado
+     * y nombres de archivos de imagen en public/imgs/
+     */
     public function run()
     {
         $faker = \Faker\Factory::create('es_ES');
@@ -99,18 +128,18 @@ class MoreItems extends Seeder
             'Juego de brocas mixtas 15 pzas',
             'Alicate universal 8"',
             'Pinza de presión 10"',
-            'Tornillo drywall 1¼”',
-            'Clavo de acero 2”',
+            'Tornillo drywall 1¼"',
+            'Clavo de acero 2"',
             'Cemento Portland tipo I 50 kg',
             'Arena fina m3',
             'Grava gruesa m3',
             'Pintura látex blanco 1 gl',
             'Silicona transparente 280 ml',
             'Sellador acrílico blanco 300 ml',
-            'Cinta teflón ½”',
+            'Cinta teflón ½"',
             'Lija para madera grano 120',
-            'Disco de corte metal 4.5”',
-            'Disco de desbaste concreto 4.5”',
+            'Disco de corte metal 4.5"',
+            'Disco de desbaste concreto 4.5"',
             'Guantes de carnaza',
             'Casco de seguridad',
             'Lentes de protección',
@@ -120,16 +149,16 @@ class MoreItems extends Seeder
             'Foco LED 12W',
             'Interruptor simple 10A',
             'Tomacorriente doble 10A',
-            'Tubo PVC ½” 3 m',
-            'Codo PVC ½”',
-            'T de PVC ½”',
-            'Válvula de bola ½”',
-            'Grifo metálico ½”',
+            'Tubo PVC ½" 3 m',
+            'Codo PVC ½"',
+            'T de PVC ½"',
+            'Válvula de bola ½"',
+            'Grifo metálico ½"',
             'Manguera de jardín 15 m',
             'Escalera de aluminio 6 peldaños',
             'Carretilla metálica 90 L',
             'Candado de seguridad 50 mm',
-            'Bisagra de acero 3”',
+            'Bisagra de acero 3"',
             'Cerradura de pomo metálica',
             'Soplete de gas butano portátil'
         ];

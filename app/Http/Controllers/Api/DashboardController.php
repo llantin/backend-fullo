@@ -10,8 +10,23 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador API para Dashboard
+ *
+ * Proporciona endpoints para obtener estadísticas y datos analíticos
+ * del sistema de inventario. Incluye métricas generales, movimientos,
+ * estado de stock y flujos de inventario para visualización en dashboard.
+ */
 class DashboardController extends Controller
 {
+    /**
+     * Obtener estadísticas generales
+     *
+     * Devuelve métricas básicas del sistema: total de ítems, receipts,
+     * movimientos y ítems con stock excesivo.
+     *
+     * @return \Illuminate\Http\JsonResponse Estadísticas generales del sistema
+     */
     public function getStats()
     {
         $total_items = Item::count();
@@ -32,6 +47,15 @@ class DashboardController extends Controller
 
         return response()->json(['stats' => $stats]);
     }
+
+    /**
+     * Obtener estadísticas de movimientos diarios
+     *
+     * Devuelve el conteo diario de movimientos de entrada (compras)
+     * y salidas (ventas) ordenados por fecha descendente.
+     *
+     * @return \Illuminate\Http\JsonResponse Estadísticas diarias de movimientos
+     */
     public function getMovementsStats()
     {
         $daily_entries = Movement::selectRaw('DATE(created_at) as date, COUNT(*) as count')
@@ -51,6 +75,15 @@ class DashboardController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Obtener estadísticas circulares de stock
+     *
+     * Devuelve métricas de estado de stock: ítems con stock bueno,
+     * bajo y sin stock, basadas en los niveles mínimo y máximo.
+     *
+     * @return \Illuminate\Http\JsonResponse Estadísticas de estado de stock
+     */
     public function getCircleStats()
     {
         $items_with_good_stock = Item::whereHas('movements', function (Builder $query) {
@@ -81,6 +114,15 @@ class DashboardController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Obtener últimos movimientos
+     *
+     * Devuelve los 10 movimientos más recientes con información
+     * del ítem, usuario y detalles del receipt asociados.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de últimos movimientos
+     */
     public function getLastMovements()
     {
         $movements = Movement::with(['item', 'user.person', 'receipt_detail'])->limit(10)->orderBy('id', 'desc')->get();
@@ -88,6 +130,15 @@ class DashboardController extends Controller
             'last_movements' => $movements
         ]);
     }
+
+    /**
+     * Obtener ítems con más movimientos
+     *
+     * Devuelve los 10 ítems con mayor cantidad de movimientos,
+     * incluyendo información de categoría y último movimiento.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de ítems más activos
+     */
     public function getItemsWithMostMovements()
     {
         $items = Item::withCount('movements')
@@ -106,6 +157,14 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Obtener flujo de movimientos de los últimos 7 días
+     *
+     * Devuelve datos de ingresos (compras) y salidas (ventas)
+     * para los últimos 7 días, formateados para gráficos.
+     *
+     * @return \Illuminate\Http\JsonResponse Datos de flujo de movimientos con etiquetas y valores
+     */
     public function getMovementFlow()
     {
         // Obtener datos de movimientos de los últimos 7 días

@@ -7,10 +7,21 @@ use App\Models\Movement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Controlador API para Movimientos de Inventario
+ *
+ * Gestiona las operaciones CRUD para los movimientos de inventario (kardex).
+ * Incluye consultas con todas las relaciones cargadas.
+ */
 class MovementsController extends Controller
 {
     /**
      * Listar todos los movimientos con relaciones
+     *
+     * Devuelve una lista completa de movimientos con información
+     * del ítem, usuario, recibo y detalle del recibo asociados.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de movimientos con relaciones
      */
     public function index()
     {
@@ -20,6 +31,17 @@ class MovementsController extends Controller
             'movements' => $movements
         ]);
     }
+
+    /**
+     * Actualizar un movimiento existente
+     *
+     * Actualiza los datos de un movimiento específico.
+     * Utiliza route model binding para inyección automática.
+     *
+     * @param Request $request Datos actualizados
+     * @param Movement $movement Instancia del movimiento a actualizar
+     * @return \Illuminate\Http\JsonResponse Movimiento actualizado
+     */
     public function update(Request $request, Movement $movement)
     {
         $movement->update($request->all());
@@ -29,8 +51,15 @@ class MovementsController extends Controller
             'movement' => $movement
         ], 200);
     }
+
     /**
      * Eliminar un movimiento
+     *
+     * Elimina un movimiento específico del kardex.
+     * Incluye validación de existencia del movimiento.
+     *
+     * @param int $id ID del movimiento a eliminar
+     * @return \Illuminate\Http\JsonResponse Confirmación de eliminación
      */
     public function destroy($id)
     {

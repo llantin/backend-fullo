@@ -5,8 +5,25 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\UnitConversion;
 
+/**
+ * Seeder para poblar la tabla de conversiones de unidades.
+ *
+ * Define los factores de conversión entre diferentes unidades de medida
+ * para permitir cálculos precisos en el sistema de inventario.
+ */
 class UnitConversionSeeder extends Seeder
 {
+    /**
+     * Ejecutar el seeder de conversiones de unidades.
+     *
+     * Crea conversiones estándar entre unidades comunes:
+     * - Longitud: CM a M (100), etc.
+     * - Peso: G a KG (1000), LB a OZ (16)
+     * - Volumen: L a GL (3.785), ML a L (1000), etc.
+     *
+     * Estos factores permiten convertir cantidades entre unidades
+     * comerciales y unidades base en el sistema.
+     */
     public function run(): void
     {
         UnitConversion::create([

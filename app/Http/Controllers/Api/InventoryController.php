@@ -14,8 +14,22 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
+/**
+ * Controlador API para Gestión de Inventario
+ *
+ * Maneja las consultas de inventario y exportaciones a Excel,
+ * incluyendo reportes generales y kardex por artículo.
+ */
 class InventoryController extends Controller
 {
+    /**
+     * Listar todo el inventario
+     *
+     * Devuelve una lista completa de todos los artículos con su
+     * información de categoría y último movimiento registrado.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista completa del inventario
+     */
     public function index()
     {
         $inventory = Item::with([
@@ -30,6 +44,14 @@ class InventoryController extends Controller
             'inventory' => $inventory
         ], 200);
     }
+    /**
+     * Exportar inventario completo a Excel
+     *
+     * Genera un archivo Excel con el inventario completo del sistema,
+     * incluyendo información de stock actual, categorías y detalles de productos.
+     * Utiliza PhpSpreadsheet para crear el archivo con formato profesional.
+     *
+     */
     public function exportInventory()
     {
         $inventory = Item::with([
@@ -96,6 +118,17 @@ class InventoryController extends Controller
         $fecha_hoy = Carbon::now()->format('d-m-Y');
         return response()->download($tempFile, "Inventario {$fecha_hoy}.xlsx")->deleteFileAfterSend(true);
     }
+    /**
+     * Exportar kardex de un artículo específico
+     *
+     * Genera un reporte Excel de kardex (movimientos de inventario) para un artículo
+     * específico en un rango de fechas determinado. Incluye entradas, salidas,
+     * stock final y conversiones de unidades cuando sea necesario.
+     *
+     * @param int $item_id ID del artículo
+     * @param string $init_date Fecha inicial (formato Y-m-d)
+     * @param string $end_date Fecha final (formato Y-m-d)
+     */
     public function exportKardex($item_id, $init_date, $end_date)
     {
         $item = Item::with('movements.receipt', 'movements.receipt_detail')->findOrFail($item_id);
@@ -215,3 +248,4 @@ class InventoryController extends Controller
         return response()->download($tempFile, "Kardex_{$item->name}_{$fecha_hoy}.xlsx")->deleteFileAfterSend(true);
     }
 }
+

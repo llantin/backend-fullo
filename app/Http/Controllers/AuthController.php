@@ -9,8 +9,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controlador de Autenticación
+ *
+ * Maneja todas las operaciones relacionadas con la autenticación de usuarios,
+ * incluyendo login, cambio de contraseña y reseteo de contraseñas.
+ * Utiliza Laravel Sanctum para la gestión de tokens de API.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Iniciar sesión de usuario
+     *
+     * Valida las credenciales del usuario y genera un token de acceso
+     * utilizando Laravel Sanctum para autenticación stateless.
+     *
+     * @param Request $request Datos de la solicitud (username, password)
+     * @return \Illuminate\Http\JsonResponse Respuesta con token y datos del usuario
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -37,6 +53,16 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
+
+    /**
+     * Restablecer contraseña con token
+     *
+     * Permite a los usuarios restablecer su contraseña utilizando
+     * un token enviado por email. Valida el token y actualiza la contraseña.
+     *
+     * @param Request $request Datos de la solicitud (email, token, password)
+     * @return \Illuminate\Http\JsonResponse Respuesta de confirmación
+     */
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -45,7 +71,7 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        // Buscar registro del token (aquí asumimos que tienes una tabla `password_reset_tokens` con email, token y created_at)
+        // Buscar registro del token en la tabla password_reset_tokens
         $reset = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->where('token', $request->token)
@@ -73,7 +99,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        // Opcional: borrar token después de usarlo
+        // Eliminar token después de usarlo para seguridad
         DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->where('token', $request->token)
@@ -84,6 +110,16 @@ class AuthController extends Controller
             'message' => 'Contraseña actualizada correctamente',
         ]);
     }
+
+    /**
+     * Cambiar contraseña del usuario autenticado
+     *
+     * Permite a los usuarios cambiar su contraseña actual por una nueva,
+     * requiriendo verificación de la contraseña actual.
+     *
+     * @param Request $request Datos de la solicitud (currentPassword, newPassword)
+     * @return \Illuminate\Http\JsonResponse Respuesta de confirmación
+     */
     public function changePassword(Request $request)
     {
         $request->validate([

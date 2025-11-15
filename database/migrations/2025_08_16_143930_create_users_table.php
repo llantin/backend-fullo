@@ -4,10 +4,44 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migración para crear las tablas de usuarios y sesiones.
+ *
+ * Esta migración crea la tabla principal de usuarios y las tablas auxiliares
+ * necesarias para el sistema de autenticación de Laravel.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar la migración.
+     *
+     * Crea las siguientes tablas:
+     *
+     * 1. 'users':
+     *    - id: Identificador único autoincremental
+     *    - person_id: ID de la persona asociada (foreign key)
+     *    - username: Nombre de usuario para login
+     *    - password: Contraseña hasheada
+     *    - role_id: ID del rol del usuario (foreign key)
+     *    - remember_token: Token para "recordar sesión"
+     *    - timestamps: Campos created_at y updated_at
+     *
+     * 2. 'password_reset_tokens': Para tokens de reseteo de contraseña
+     *    - email: Correo electrónico (primary key)
+     *    - token: Token de reseteo
+     *    - created_at: Fecha de creación
+     *
+     * 3. 'sessions': Para manejo de sesiones de usuario
+     *    - id: ID de la sesión (primary key)
+     *    - user_id: ID del usuario (nullable, indexed)
+     *    - ip_address: Dirección IP del usuario
+     *    - user_agent: Información del navegador
+     *    - payload: Datos serializados de la sesión
+     *    - last_activity: Timestamp de última actividad (indexed)
+     *
+     * Llaves foráneas:
+     * - users.person_id -> people.id
+     * - users.role_id -> roles.id
      */
     public function up(): void
     {
@@ -41,7 +75,9 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir la migración.
+     *
+     * Elimina las tablas 'users', 'password_reset_tokens' y 'sessions' si existen.
      */
     public function down(): void
     {

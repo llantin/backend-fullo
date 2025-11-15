@@ -10,10 +10,22 @@ use App\Models\ReceiptDetail;
 use App\Models\UnitConversion;
 use App\Http\Controllers\Controller;
 
+/**
+ * Controlador API para Recibos/Comprobantes
+ *
+ * Gestiona las operaciones CRUD para recibos de compra/venta,
+ * incluyendo la lógica compleja de procesamiento de artículos,
+ * cálculo de stocks y registro de movimientos de inventario.
+ */
 class ReceiptsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar todos los recibos
+     *
+     * Devuelve una lista completa de recibos con información
+     * del usuario y persona asociados.
+     *
+     * @return \Illuminate\Http\JsonResponse Lista de recibos con relaciones
      */
     public function index()
     {
@@ -25,7 +37,19 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear un nuevo recibo/comprobante
+     *
+     * Procesa una transacción completa de compra o venta, incluyendo:
+     * - Validación de datos del comprobante
+     * - Creación de cabecera del comprobante
+     * - Procesamiento de artículos con cálculo de subtotales
+     * - Creación de detalles del comprobante
+     * - Registro de movimientos de inventario
+     * - Cálculo y actualización de stocks
+     *
+     * @param Request $request Datos del comprobante y artículos
+     * @return \Illuminate\Http\JsonResponse Comprobante creado con detalles
+     * @throws \Exception Si no hay stock suficiente para una venta
      */
     public function store(Request $request)
     {
@@ -91,7 +115,17 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Calcula el nuevo stock con validación de ventas sin inventario.
+     * Calcular el nuevo stock después de un movimiento
+     *
+     * Método privado que calcula el stock resultante después de una compra o venta,
+     * incluyendo validación de stock suficiente para ventas y conversión de unidades.
+     *
+     * @param int $itemId ID del artículo
+     * @param string $type Tipo de movimiento ('Compra' o 'Venta')
+     * @param float $quantity Cantidad del movimiento
+     * @param string|null $convert_unit Unidad de conversión (opcional)
+     * @return float Nuevo stock calculado
+     * @throws \Exception Si no hay stock suficiente para una venta
      */
     private function calculateNewStock($itemId, $type, $quantity, $convert_unit)
     {

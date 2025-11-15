@@ -4,10 +4,29 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migración para crear la tabla de relación entre roles y módulos.
+ *
+ * Esta tabla establece las relaciones many-to-many entre roles y módulos,
+ * permitiendo asignar permisos específicos a cada rol del sistema.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar la migración.
+     *
+     * Crea la tabla 'role_modules' con los siguientes campos:
+     * - id: Identificador único autoincremental
+     * - role_id: ID del rol (foreign key)
+     * - module_id: ID del módulo (foreign key)
+     * - timestamps: Campos created_at y updated_at
+     *
+     * Llaves foráneas:
+     * - role_id -> roles.id
+     * - module_id -> modules.id
+     *
+     * Esta tabla permite que un rol tenga acceso a múltiples módulos
+     * y que un módulo pueda ser asignado a múltiples roles.
      */
     public function up(): void
     {
@@ -23,7 +42,9 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir la migración.
+     *
+     * Elimina la tabla 'role_modules' si existe.
      */
     public function down(): void
     {

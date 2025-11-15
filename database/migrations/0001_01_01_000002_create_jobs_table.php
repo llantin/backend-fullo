@@ -4,10 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migración estándar de Laravel para crear tablas de trabajos en cola.
+ *
+ * Crea las tablas necesarias para el sistema de colas de Laravel:
+ * - 'jobs': Almacena trabajos pendientes en la cola
+ * - 'job_batches': Maneja lotes de trabajos
+ * - 'failed_jobs': Registra trabajos que fallaron
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar la migración.
+     *
+     * Crea las tablas 'jobs', 'job_batches' y 'failed_jobs' para el sistema de colas.
      */
     public function up(): void
     {
@@ -46,7 +56,9 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir la migración.
+     *
+     * Elimina las tablas 'jobs', 'job_batches' y 'failed_jobs'.
      */
     public function down(): void
     {

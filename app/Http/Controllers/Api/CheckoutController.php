@@ -14,15 +14,25 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Controlador API para Checkout
+ *
+ * Gestiona el proceso completo de checkout en el sistema de inventario.
+ * Valida datos del frontend, busca o crea personas consultando APIs externas,
+ * delega la creación de comprobantes a ReceiptsController y registra entregas.
+ * Todas las operaciones se realizan en transacción para asegurar consistencia.
+ */
 class CheckoutController extends Controller
 {
     /**
-     * Procesa el checkout completo:
-     *  - valida payload entrante (front)
-     *  - busca o crea persona (consulta API externa si no existe)
-     *  - delega creación de receipt a ReceiptsController (mapeando articulos)
-     *  - crea registro de delivery
-     *  - todo en transacción
+     * Procesar checkout completo
+     *
+     * Realiza el proceso completo de checkout: valida payload, busca o crea persona
+     * (consultando API externa si es necesario), delega creación de receipt y registra delivery.
+     * Todo se ejecuta en una transacción de base de datos.
+     *
+     * @param Request $request Datos del checkout (persona, artículos, delivery)
+     * @return \Illuminate\Http\JsonResponse Datos de persona, receipt y delivery creados
      */
     public function store(Request $request)
     {
@@ -274,6 +284,15 @@ class CheckoutController extends Controller
         }
     }
 
+    /**
+     * Mostrar orden por hash único
+     *
+     * Busca y devuelve los detalles completos de una orden de delivery
+     * utilizando el hash único generado durante el checkout.
+     *
+     * @param string $hash Hash único de la orden de delivery
+     * @return \Illuminate\Http\JsonResponse Detalles de delivery, persona, receipt y artículos
+     */
     public function showByHash($hash)
 {
     // Usar 'receipt_details' en lugar de 'articulos'
