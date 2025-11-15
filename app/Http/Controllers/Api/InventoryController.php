@@ -243,6 +243,7 @@ class InventoryController extends Controller
         $writer = new Xlsx($spreadsheet);
         $tempFile = tempnam(sys_get_temp_dir(), 'kardex');
         $writer->save($tempFile);
+        $fecha_hoy = Carbon::now()->format('d-m-Y');
         $item_name = str_replace(['"', '/', '\\'], '-', $item->name);
 
         $fecha_hoy = str_replace(['/', '\\'], '-', $fecha_hoy);
@@ -253,6 +254,7 @@ class InventoryController extends Controller
             ->download($tempFile, $filename)
             ->deleteFileAfterSend(true);
 
+        return response()->download($tempFile, "Kardex_{$item->name}_{$fecha_hoy}.xlsx")->deleteFileAfterSend(true);
     }
 }
 
